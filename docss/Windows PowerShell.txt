@@ -1,0 +1,486 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\reactt\lms-capstone> git init
+Initialized empty Git repository in C:/reactt/lms-capstone/.git/
+PS C:\reactt\lms-capstone> git remote add origin https://github.com/kos24bit/lms-capstone.git
+PS C:\reactt\lms-capstone> mkdir backend
+
+
+    Directory: C:\reactt\lms-capstone
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          5/7/2026   9:09 PM                backend
+
+
+PS C:\reactt\lms-capstone> cd .\backend\
+PS C:\reactt\lms-capstone\backend> npm init -y
+Wrote to C:\reactt\lms-capstone\backend\package.json:
+
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
+
+
+PS C:\reactt\lms-capstone\backend> npm install express mongoose cors dotenv bcryptjs jsonwebtoken
+
+added 100 packages, and audited 101 packages in 4s
+
+26 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\reactt\lms-capstone\backend> npm install nodemon --save-dev
+
+added 25 packages, and audited 126 packages in 2s
+
+31 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\reactt\lms-capstone\backend> LS
+
+
+    Directory: C:\reactt\lms-capstone\backend
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          5/7/2026   9:10 PM                node_modules
+-a----          5/7/2026   9:10 PM          54961 package-lock.json
+-a----          5/7/2026   9:10 PM            474 package.json
+
+
+PS C:\reactt\lms-capstone\backend> more .\package.json
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
+
+PS C:\reactt\lms-capstone\backend> vim .\package.json
+vim : The term 'vim' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ vim .\package.json
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (vim:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\reactt\lms-capstone\backend> vi .\package.json
+vi : The term 'vi' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ vi .\package.json
++ ~~
+    + CategoryInfo          : ObjectNotFound: (vi:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\reactt\lms-capstone\backend> edit .\package.json
+edit : The term 'edit' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ edit .\package.json
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (edit:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\reactt\lms-capstone\backend> notepad .\package.json
+PS C:\reactt\lms-capstone\backend> dir
+
+
+    Directory: C:\reactt\lms-capstone\backend
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          5/7/2026   9:10 PM                node_modules
+-a----          5/7/2026   9:10 PM          54961 package-lock.json
+-a----          5/7/2026   9:13 PM            537 package.json
+
+
+PS C:\reactt\lms-capstone\backend> notepad server.js
+PS C:\reactt\lms-capstone\backend> npm run dev
+
+> backend@1.0.0 dev
+> nodemon server.js
+
+[nodemon] 3.1.14
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node server.js`
+Server running on port 5000
+MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017
+    at _handleConnectionErrors (C:\reactt\lms-capstone\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.openUri (C:\reactt\lms-capstone\backend\node_modules\mongoose\lib\connection.js:1111:11)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at listOnTimeout (node:internal/timers:549:9)
+    at process.processTimers (node:internal/timers:523:7) {
+  errorLabelSet: Set(0) {},
+  reason: TopologyDescription {
+    type: 'Unknown',
+    servers: Map(1) { '127.0.0.1:27017' => [ServerDescription] },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: null,
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  },
+  code: undefined,
+  cause: TopologyDescription {
+    type: 'Unknown',
+    servers: Map(1) { '127.0.0.1:27017' => [ServerDescription] },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: null,
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  }
+}
+PS C:\reactt\lms-capstone\backend> mkdir models
+
+
+    Directory: C:\reactt\lms-capstone\backend
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          5/7/2026   9:17 PM                models
+
+
+PS C:\reactt\lms-capstone\backend> cd .\models\
+PS C:\reactt\lms-capstone\backend\models> notepad User.js
+PS C:\reactt\lms-capstone\backend\models> notepad Course.js
+PS C:\reactt\lms-capstone\backend\models> cd ..
+PS C:\reactt\lms-capstone\backend> mkdir routes
+
+
+    Directory: C:\reactt\lms-capstone\backend
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          5/7/2026   9:18 PM                routes
+
+
+PS C:\reactt\lms-capstone\backend> notepad authRoutes.js
+PS C:\reactt\lms-capstone\backend> ls
+
+
+    Directory: C:\reactt\lms-capstone\backend
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          5/7/2026   9:18 PM                models
+d-----          5/7/2026   9:10 PM                node_modules
+d-----          5/7/2026   9:18 PM                routes
+-a----          5/7/2026   9:19 PM            876 authRoutes.js
+-a----          5/7/2026   9:10 PM          54961 package-lock.json
+-a----          5/7/2026   9:13 PM            537 package.json
+-a----          5/7/2026   9:14 PM            482 server.js
+
+
+PS C:\reactt\lms-capstone\backend> notepad .\server.js
+PS C:\reactt\lms-capstone\backend> cd .\routes\
+PS C:\reactt\lms-capstone\backend\routes> notepad courseRoutes.js
+PS C:\reactt\lms-capstone\backend\routes> notepad .\server.js
+PS C:\reactt\lms-capstone\backend\routes> cd .
+PS C:\reactt\lms-capstone\backend\routes> cd ..
+PS C:\reactt\lms-capstone\backend> notepad .\server.js
+PS C:\reactt\lms-capstone\backend> cd ..
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone> OK LETS PLAY WITH FRONTEND NOW
+OK : The term 'OK' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ OK LETS PLAY WITH FRONTEND NOW
++ ~~
+    + CategoryInfo          : ObjectNotFound: (OK:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone>
+PS C:\reactt\lms-capstone> npx create-react-app frontend
+Need to install the following packages:
+create-react-app@5.1.0
+Ok to proceed? (y) y
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated fstream-ignore@1.0.5: This package is no longer supported.
+npm warn deprecated uid-number@0.0.6: This package is no longer supported.
+npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated fstream@1.0.12: This package is no longer supported.
+npm warn deprecated tar@2.2.2: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+create-react-app is deprecated.
+
+You can find a list of up-to-date React frameworks on react.dev
+For more info see:https://react.dev/link/cra
+
+This error message will only be shown once per install.
+
+Creating a new React app in C:\reactt\lms-capstone\frontend.
+
+Installing packages. This might take a couple of minutes.
+Installing react, react-dom, and react-scripts with cra-template...
+
+
+added 1300 packages in 45s
+
+269 packages are looking for funding
+  run `npm fund` for details
+
+Installing template dependencies using npm...
+
+added 17 packages, removed 1 package, and changed 1 package in 5s
+
+268 packages are looking for funding
+  run `npm fund` for details
+Removing template package using npm...
+
+
+removed 1 package, and audited 1316 packages in 4s
+
+268 packages are looking for funding
+  run `npm fund` for details
+
+26 vulnerabilities (9 low, 3 moderate, 14 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+Success! Created frontend at C:\reactt\lms-capstone\frontend
+Inside that directory, you can run several commands:
+
+  npm start
+    Starts the development server.
+
+  npm run build
+    Bundles the app into static files for production.
+
+  npm test
+    Starts the test runner.
+
+  npm run eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+We suggest that you begin by typing:
+
+  cd frontend
+  npm start
+
+Happy hacking!
+PS C:\reactt\lms-capstone> cd .\frontend\
+PS C:\reactt\lms-capstone\frontend> npm install axios react-router-dom
+
+added 7 packages, and audited 1323 packages in 4s
+
+269 packages are looking for funding
+  run `npm fund` for details
+
+26 vulnerabilities (9 low, 3 moderate, 14 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+PS C:\reactt\lms-capstone\frontend> cd .\src\
+PS C:\reactt\lms-capstone\frontend\src> ls
+
+
+    Directory: C:\reactt\lms-capstone\frontend\src
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----          5/7/2026   9:25 PM            564 App.css
+-a----          5/7/2026   9:25 PM            528 App.js
+-a----          5/7/2026   9:25 PM            246 App.test.js
+-a----          5/7/2026   9:25 PM            366 index.css
+-a----          5/7/2026   9:25 PM            535 index.js
+-a----          5/7/2026   9:25 PM           2632 logo.svg
+-a----          5/7/2026   9:25 PM            362 reportWebVitals.js
+-a----          5/7/2026   9:25 PM            241 setupTests.js
+
+
+PS C:\reactt\lms-capstone\frontend\src> notepad .\App.js
+PS C:\reactt\lms-capstone\frontend\src> cd pages
+cd : Cannot find path 'C:\reactt\lms-capstone\frontend\src\pages' because it does not exist.
+At line:1 char:1
++ cd pages
++ ~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\reactt\lms-c...ntend\src\pages:String) [Set-Location], ItemNotFoundE
+   xception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetLocationCommand
+
+PS C:\reactt\lms-capstone\frontend\src> ls
+
+
+    Directory: C:\reactt\lms-capstone\frontend\src
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----          5/7/2026   9:25 PM            564 App.css
+-a----          5/7/2026   9:31 PM            469 App.js
+-a----          5/7/2026   9:25 PM            246 App.test.js
+-a----          5/7/2026   9:25 PM            366 index.css
+-a----          5/7/2026   9:25 PM            535 index.js
+-a----          5/7/2026   9:25 PM           2632 logo.svg
+-a----          5/7/2026   9:25 PM            362 reportWebVitals.js
+-a----          5/7/2026   9:25 PM            241 setupTests.js
+
+
+PS C:\reactt\lms-capstone\frontend\src> mkdir pages
+
+
+    Directory: C:\reactt\lms-capstone\frontend\src
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          5/7/2026   9:31 PM                pages
+
+
+PS C:\reactt\lms-capstone\frontend\src> cd .\pages\
+PS C:\reactt\lms-capstone\frontend\src\pages> notepad Login.js
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages> LETS TRY IT NOW
+LETS : The term 'LETS' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ LETS TRY IT NOW
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (LETS:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+PS C:\reactt\lms-capstone\frontend\src\pages>
+
+
+
+PS C:\reactt\lms-capstone\frontend>
+PS C:\reactt\lms-capstone\frontend>
+PS C:\reactt\lms-capstone\frontend> npm start
+
+> frontend@0.1.0 start
+> react-scripts start
+
+(node:32800) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:32800) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+Compiled successfully!
+
+You can now view frontend in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://192.168.1.7:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully
+PS C:\reactt\lms-capstone\frontend>
+PS C:\reactt\lms-capstone\frontend>
+PS C:\reactt\lms-capstone\frontend>
+PS C:\reactt\lms-capstone\frontend>
