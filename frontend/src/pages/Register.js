@@ -1,40 +1,41 @@
-import { useState } from "react";
-import API from "../services/api";
+import React, { useState } from "react";
+import axios from "axios";
 
 function Register() {
 
-  const [name,setName] = useState("");
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
-  const [role,setRole] = useState("student");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
 
-  const handleSubmit = async (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
 
-    try{
+    try {
 
-      const res = await API.post("/auth/register",{
+      await axios.post("http://localhost:5000/api/auth/register", {
         name,
         email,
         password,
         role
       });
 
-      alert(res.data.message);
+      alert("Registration successful");
+      window.location.href = "/";
 
-    }catch(err){
+    } catch (error) {
+
       alert("Registration failed");
-    }
+      console.error(error);
 
+    }
   };
 
   return (
-
-    <div style={{padding:"20px"}}>
-
+    <div>
       <h2>Register</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={registerUser}>
 
         <input
           type="text"
@@ -71,8 +72,7 @@ function Register() {
           onChange={(e)=>setRole(e.target.value)}
         >
           <option value="student">Student</option>
-          <option value="instructor">Faculty - Instructor</option>
-          <option value="admin">Admin</option>
+          <option value="instructor">Instructor</option>
         </select>
 
         <br/><br/>
@@ -80,11 +80,8 @@ function Register() {
         <button type="submit">Register</button>
 
       </form>
-
     </div>
-
   );
-
 }
 
 export default Register;

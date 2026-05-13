@@ -3,33 +3,44 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
   return (
-    <div style={{
-      backgroundColor: "#222",
-      padding: "10px"
-    }}>
 
-      <Link style={linkStyle} to="/courses">Courses</Link>
+    <div className="navbar">
 
-      <Link style={linkStyle} to="/request-course">Request Course</Link>
+      <Link to="/courses">Courses</Link>
 
-      <Link style={linkStyle} to="/feedback">Feedback</Link>
+      {!user && (
+        <>
+          <Link to="/login">Login</Link>
+          <Link to="/register">Register</Link>
+        </>
+      )}
 
-      <Link style={linkStyle} to="/instructor">Instructor Dashboard</Link>
+      {user && user.role === "instructor" && (
+        <Link to="/instructor/requests">Instructor Dashboard</Link>
+      )}
 
-      <Link style={linkStyle} to="/login">Login</Link>
+      {user && user.role === "admin" && (
+        <Link to="/admin">Admin Dashboard</Link>
+      )}
 
-      <Link style={linkStyle} to="/register">Register</Link>
+      {user && (
+        <button onClick={logout}>
+          Logout
+        </button>
+      )}
 
     </div>
-  );
-}
 
-const linkStyle = {
-  color: "white",
-  marginRight: "15px",
-  textDecoration: "none",
-  fontWeight: "bold"
-};
+  );
+
+}
 
 export default Navbar;

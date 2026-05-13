@@ -1,137 +1,85 @@
 const express = require("express");
 const router = express.Router();
 
-const AccessRequest = require("../models/AccessRequest");
+const Access = require("../models/Access");
 const Course = require("../models/Course");
 
 // =============================
-// Student requests course access
+// Student requests access
 // =============================
 router.post("/request", async (req, res) => {
   try {
+
     const { userId, courseId } = req.body;
 
-    const existing = await AccessRequest.findOne({ userId, courseId });
+    const existing = await Access.findOne({
+      user: userId,
+      course: courseId
+    });
 
     if (existing) {
-      return res.status(400).json({ message: "Request already exists" });
+      return res.status(400).json({ message: "Already requested/enrolled" });
     }
 
-    const request = new AccessRequest({
-      userId,
-      courseId,
+    const access = new Access({
+      user: userId,
+      course: courseId,
       status: "pending"
     });
 
-    await request.save();
+    await access.save();
 
-    res.json({ message: "Access request submitted", request });
+    res.json({ message: "Request submitted", access });
 
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
 
 // =============================
-// Instructor gets pending requests
+// Instructor/Admin approves
 // =============================
-router.get("/pending/:instructorId", async (req, res) => {
+router.put("/approve/:id", async (req, res) => {
   try {
 
-    const courses = await Course.find({
-      instructor: req.params.instructorId
-    });
+    const access = await Access.findById(req.params.id);
 
-    const courseIds = courses.map(course => course._id);
-
-    const requests = await AccessRequest.find({
-      courseId: { $in: courseIds },
-      status: "pending"
-    })
-      .populate("userId", "name email")
-      .populate("courseId", "title");
-
-    res.json(requests);
-
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-
-// =============================
-// Instructor approves request
-// =============================
-router.put("/approve/:requestId", async (req, res) => {
-  try {
-
-    const request = await AccessRequest.findById(req.params.requestId);
-
-    if (!request) {
-      return res.status(404).json({ message: "Request not found" });
+    if (!access) {
+      return res.status(404).json({ message: "Not found" });
     }
 
-    request.status = "approved";
-    await request.save();
+    access.status = "approved";
+    await access.save();
 
-    res.json({ message: "Request approved" });
+    res.json({ message: "Approved" });
 
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
 
 // =============================
-// Instructor rejects request
+// Student enrolled courses
 // =============================
-router.put("/reject/:requestId", async (req, res) => {
+router.get("/student/:studentId", async (req, res) => {
+
   try {
 
-    const request = await AccessRequest.findById(req.params.requestId);
+    const accesses = await Access.find({
+      user: req.params.studentId,
+      status: "approved"
+    }).populate("course");
 
-    if (!request) {
-      return res.status(404).json({ message: "Request not found" });
-    }
+    const courses = accesses.map(a => a.course);
 
-    request.status = "rejected";
-    await request.save();
-
-    res.json({ message: "Request rejected" });
+    res.json(courses);
 
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ error: err.message });
   }
-});
-
-
-// Get courses for a specific student
-router.get("/student/:studentId", async (req,res)=>{
-
-try{
-
-console.log("Student ID received:", req.params.studentId);
-
-const accesses = await Access.find({
-studentId:req.params.studentId,
-status:"approved"
-}).populate("courseId");
-
-console.log("Access records:", accesses);
-
-const courses = accesses.map(a => a.courseId);
-
-res.json(courses);
-
-}catch(err){
-
-console.log("ERROR:", err);
-res.status(500).json({error:err.message});
-
-}
 
 });
-
 
 module.exports = router;

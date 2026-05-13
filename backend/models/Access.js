@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
 
-const accessRequestSchema = new mongoose.Schema({
+const accessSchema = new mongoose.Schema({
 
-    user:{
+    user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref: "User"
     },
 
-    course:{
+    course: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"Course"
+        ref: "Course"
     },
 
-    status:{
-        type:String,
-        enum:["pending","approved","rejected"],
-        default:"pending"
+    status: {
+        type: String,
+        enum: ["pending", "approved", "rejected"],
+        default: "pending"
     }
 
 });

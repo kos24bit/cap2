@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const CourseRequest = require("../models/CourseRequest");
+const Course = require("../models/Course");
 
-
-/* ======================== =
+/* ========================
    STUDENT REQUEST COURSE
 ========================= */
 
@@ -25,9 +25,7 @@ router.post("/request", async (req, res) => {
         res.json({ message: "Course access requested" });
 
     } catch (error) {
-
         res.status(500).json({ message: error.message });
-
     }
 
 });
@@ -49,20 +47,16 @@ router.get("/", async (req, res) => {
         res.json(requests);
 
     } catch (error) {
-
         res.status(500).json({ message: error.message });
-
     }
 
 });
-
 
 
 /* =========================
    GET REQUESTS (Instructor)
 ========================= */
 
-// Get all requests for courses of an instructor
 router.get("/instructor/:instructorId", async (req, res) => {
 
     try {
@@ -80,9 +74,7 @@ router.get("/instructor/:instructorId", async (req, res) => {
         res.json(requests);
 
     } catch (error) {
-
         res.status(500).json({ error: error.message });
-
     }
 
 });
@@ -105,35 +97,7 @@ router.put("/:id/approve", async (req, res) => {
         res.json({ message: "Request approved" });
 
     } catch (error) {
-
         res.status(500).json({ message: error.message });
-
-    }
-
-});
-
-
-
-/* =========================
-   Approve course request
-========================= */
-
-router.put("/approve/:requestId", async (req, res) => {
-
-    try {
-
-        const request = await CourseRequest.findById(req.params.requestId);
-
-        request.status = "approved";
-
-        await request.save();
-
-        res.json({ message: "Request approved" });
-
-    } catch (error) {
-
-        res.status(500).json({ error: error.message });
-
     }
 
 });
@@ -156,37 +120,9 @@ router.put("/:id/reject", async (req, res) => {
         res.json({ message: "Request rejected" });
 
     } catch (error) {
-
         res.status(500).json({ message: error.message });
-
     }
 
 });
-
-
-/* =========================
-   Reject course request
-========================= */
-
-router.put("/reject/:requestId", async (req, res) => {
-
-    try {
-
-        const request = await CourseRequest.findById(req.params.requestId);
-
-        request.status = "rejected";
-
-        await request.save();
-
-        res.json({ message: "Request rejected" });
-
-    } catch (error) {
-
-        res.status(500).json({ error: error.message });
-
-    }
-
-});
-
 
 module.exports = router;

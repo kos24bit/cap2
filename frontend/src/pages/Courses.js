@@ -1,41 +1,67 @@
+// src/pages/Courses.js
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import CourseRequestButton from "../components/CourseRequestButton";
 
-function Courses(){
+function Courses() {
 
-const [courses,setCourses] = useState([]);
+  const [courses, setCourses] = useState([]);
 
-useEffect(()=>{
+  // ===============================
+  // Load all courses
+  // ===============================
+  useEffect(() => {
 
-    axios.get("http://localhost:5000/api/courses")
-    .then(res=>{
+    const fetchCourses = async () => {
+
+      try {
+
+        const res = await axios.get(
+          "http://localhost:5000/api/courses"
+        );
+
         setCourses(res.data);
-    })
-    .catch(err=>{
-        console.log(err);
-    });
 
-},[]);
+      } catch (error) {
 
-return(
-<div>
+        console.error("Error loading courses:", error);
 
-<h2>Courses</h2>
+      }
 
-{courses.map(course=>(
-    <div key={course._id} style={{border:"1px solid gray",padding:"10px",margin:"10px"}}>
+    };
 
-        <h3>{course.title}</h3>
-        <p>{course.description}</p>
-        <p>Instructor: {course.instructor}</p>
-        <p>Average Rating: {course.averageRating}</p>
+    fetchCourses();
+
+  }, []);
+
+
+  return (
+    <div>
+
+      <h2>Courses</h2>
+
+      {courses.length === 0 && (
+        <p>No courses available</p>
+      )}
+
+      {courses.map((course) => (
+
+		<div key={course._id} className="card">
+
+          <h3>{course.title}</h3>
+
+          <p>{course.description}</p>
+
+          {/* Request button component */}
+          <CourseRequestButton courseId={course._id} />
+
+        </div>
+
+      ))}
 
     </div>
-))}
-
-</div>
-);
-
+  );
 }
 
 export default Courses;

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-
+const jwt = require("jsonwebtoken");
 
 /* -----------------------
    REGISTER USER
@@ -60,8 +60,15 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Invalid password" });
         }
 
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            "secretkey",
+            { expiresIn: "1d" }
+        );
+
         res.json({
             message: "Login successful",
+            token,
             user
         });
 
