@@ -165,6 +165,16 @@ function InstructorDashboard() {
 
   }, []);
 
+const renderStars = (avg) => {
+
+  if (!avg) return "☆☆☆☆☆";
+
+  const fullStars = Math.floor(avg);
+  const emptyStars = 5 - fullStars;
+
+  return "★".repeat(fullStars) + "☆".repeat(emptyStars);
+
+};
 
   return (
     <div>
@@ -205,12 +215,17 @@ function InstructorDashboard() {
           <p>{course.description}</p>
 
           {/* ⭐ Course Rating */}
-          <p>
-            <strong>Average Rating:</strong>{" "}
-            {ratings[course._id]
-              ? `${ratings[course._id].average.toFixed(1)} ⭐ (${ratings[course._id].total} ratings)`
-              : "No ratings yet"}
-          </p>
+			<p>
+			  <strong>Average Rating:</strong>{" "}
+			  {ratings[course._id] ? (
+				<>
+				  {renderStars(ratings[course._id].average)} 
+				  {" "}({ratings[course._id].average.toFixed(1)} / 5 from {ratings[course._id].total} ratings)
+				</>
+			  ) : (
+				"No ratings yet"
+			  )}
+			</p>
 
         </div>
 

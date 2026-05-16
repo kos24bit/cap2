@@ -7,6 +7,7 @@ import CourseRequestButton from "../components/CourseRequestButton";
 function Courses() {
 
   const [courses, setCourses] = useState([]);
+  const [ratings, setRatings] = useState({});
 
   // ===============================
   // Load all courses
@@ -22,6 +23,7 @@ function Courses() {
         );
 
         setCourses(res.data);
+        fetchRatings(res.data);
 
       } catch (error) {
 
@@ -33,8 +35,49 @@ function Courses() {
 
     fetchCourses();
 
+	/////////////
+	//Fetch ratings in public courses page
+	/////////////
+	const fetchRatings = async (courses) => {
+
+	  const ratingData = {};
+
+	  for (const course of courses) {
+
+		try {
+
+		  const res = await axios.get(
+			`http://localhost:5000/api/ratings/course/${course._id}`
+		  );
+
+		  ratingData[course._id] = res.data;
+
+		} catch (error) {
+
+		  ratingData[course._id] = { average: 0, total: 0 };
+
+		}
+
+	  }
+
+	  setRatings(ratingData);
+
+	};	
+	
+	
+	
+	
+
   }, []);
 
+	const renderStars = (avg) => {
+
+	  const fullStars = Math.floor(avg);
+	  const emptyStars = 5 - fullStars;
+
+	  return "★".repeat(fullStars) + "☆".repeat(emptyStars);
+
+	};
 
   return (
     <div>
@@ -52,6 +95,20 @@ function Courses() {
           <h3>{course.title}</h3>
 
           <p>{course.description}</p>
+		  
+			<p>
+			  <strong>Rating:</strong>{" "}
+			  {ratings[course._id] ? (
+				<>
+					<span style={{ color: "gold" }}>
+					  {renderStars(ratings[course._id].average)}
+					</span>
+				  {" "}({ratings[course._id].average.toFixed(1)} / 5 from {ratings[course._id].total} ratings)
+				</>
+			  ) : (
+				"No ratings yet"
+			  )}
+			</p>
 
           {/* Request button component */}
           <CourseRequestButton courseId={course._id} />
