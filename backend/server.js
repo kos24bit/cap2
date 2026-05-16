@@ -22,6 +22,9 @@ app.use("/api/feedback", feedbackRoutes);
 const accessRoutes = require("./routes/accessRoutes");
 app.use("/api/access", accessRoutes);
 
+const ratingRoutes = require("./routes/ratings");
+app.use("/api/ratings", ratingRoutes);
+
 mongoose.connect("mongodb://127.0.0.1:27017/lmsdb")
 .then(()=>console.log("MongoDB Connected"))
 .catch(err=>console.log(err));

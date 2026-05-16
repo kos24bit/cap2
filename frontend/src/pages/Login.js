@@ -36,7 +36,7 @@ function Login() {
         window.location.href = "/instructor";
       }
       else {
-        window.location.href = "/courses";
+        window.location.href = "/student";
       }
 
     } catch (err) {

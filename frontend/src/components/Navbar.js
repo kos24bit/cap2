@@ -24,7 +24,11 @@ function Navbar() {
       )}
 
       {user && user.role === "instructor" && (
-        <Link to="/instructor/requests">Instructor Dashboard</Link>
+        <Link to="/instructor">Instructor Dashboard</Link>
+      )}
+
+      {user && user.role === "student" && (
+        <Link to="/student">Student Dashboard</Link>
       )}
 
       {user && user.role === "admin" && (

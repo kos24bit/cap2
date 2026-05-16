@@ -5,6 +5,7 @@ function InstructorDashboard() {
 
   const [courses, setCourses] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [ratings, setRatings] = useState({}); // ⭐ store ratings per course
 
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
@@ -18,7 +19,7 @@ function InstructorDashboard() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/courses/instructor/" + user.id,
+        "http://localhost:5000/api/courses/instructor/" + user._id,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -28,9 +29,39 @@ function InstructorDashboard() {
 
       setCourses(res.data);
 
+      // ⭐ fetch rating for each course
+      res.data.forEach(course => {
+        fetchRating(course._id);
+      });
+
     } catch (error) {
 
       console.error("Error loading courses:", error);
+
+    }
+
+  };
+
+
+  // ===============================
+  // Fetch rating for course
+  // ===============================
+  const fetchRating = async (courseId) => {
+
+    try {
+
+      const res = await axios.get(
+        "http://localhost:5000/api/ratings/course/" + courseId
+      );
+
+      setRatings(prev => ({
+        ...prev,
+        [courseId]: res.data
+      }));
+
+    } catch (error) {
+
+      console.error("Error loading rating:", error);
 
     }
 
@@ -45,7 +76,7 @@ function InstructorDashboard() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/requests/instructor/" + user.id,
+        "http://localhost:5000/api/requests/instructor/" + user._id,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -144,6 +175,15 @@ function InstructorDashboard() {
           Instructor Courses
       =============================== */}
 
+      <button onClick={()=>window.location.href="/create-course"}>
+        Create Course
+      </button>
+
+      <button onClick={()=>window.location.href="/instructor/requests"}>
+        Student Requests
+      </button>
+
+
       <h3>Your Courses</h3>
 
       {courses.length === 0 && (
@@ -163,6 +203,14 @@ function InstructorDashboard() {
 
           <h4>{course.title}</h4>
           <p>{course.description}</p>
+
+          {/* ⭐ Course Rating */}
+          <p>
+            <strong>Average Rating:</strong>{" "}
+            {ratings[course._id]
+              ? `${ratings[course._id].average.toFixed(1)} ⭐ (${ratings[course._id].total} ratings)`
+              : "No ratings yet"}
+          </p>
 
         </div>
 

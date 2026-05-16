@@ -4,6 +4,7 @@ const router = express.Router();
 const Access = require("../models/Access");
 const Course = require("../models/Course");
 
+
 // =============================
 // Student requests access
 // =============================
@@ -63,21 +64,22 @@ router.put("/approve/:id", async (req, res) => {
 // =============================
 // Student enrolled courses
 // =============================
-router.get("/student/:studentId", async (req, res) => {
+router.get("/student/:userId", async (req, res) => {
 
   try {
 
-    const accesses = await Access.find({
-      user: req.params.studentId,
-      status: "approved"
-    }).populate("course");
+    const accesses = await Access
+      .find({ user: req.params.userId })
+      .populate("course");
 
     const courses = accesses.map(a => a.course);
 
     res.json(courses);
 
   } catch (err) {
+
     res.status(500).json({ error: err.message });
+
   }
 
 });

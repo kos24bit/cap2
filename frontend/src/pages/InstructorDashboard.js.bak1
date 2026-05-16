@@ -18,7 +18,7 @@ function InstructorDashboard() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/courses/instructor/" + user.id,
+        "http://localhost:5000/api/courses/instructor/" + user._id,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -45,7 +45,7 @@ function InstructorDashboard() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/requests/instructor/" + user.id,
+        "http://localhost:5000/api/requests/instructor/" + user._id,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -144,6 +144,15 @@ function InstructorDashboard() {
           Instructor Courses
       =============================== */}
 
+	<button onClick={()=>window.location.href="/create-course"}>
+	Create Course
+	</button>
+
+	<button onClick={()=>window.location.href="/instructor/requests"}>
+	Student Requests
+	</button>
+	
+	
       <h3>Your Courses</h3>
 
       {courses.length === 0 && (

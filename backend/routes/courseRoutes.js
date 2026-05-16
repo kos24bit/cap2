@@ -50,7 +50,6 @@ router.get("/", async (req, res) => {
 
 });
 
-
 // ===============================
 // Get courses by instructor
 // ===============================
@@ -72,6 +71,29 @@ router.get("/instructor/:instructorId", async (req, res) => {
 
 });
 
+
+// =============================
+// Create new course (Instructor)
+// =============================
+router.post("/", async (req, res) => {
+  try {
+
+    const { title, description, instructorId } = req.body;
+
+    const course = new Course({
+      title,
+      description,
+      instructor: instructorId
+    });
+
+    await course.save();
+
+    res.json(course);
+
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 // ===============================
 // Update a course
