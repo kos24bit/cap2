@@ -8,7 +8,7 @@ function Courses() {
 
   const [courses, setCourses] = useState([]);
   const [ratings, setRatings] = useState({});
-
+  const [enrollments, setEnrollments] = useState({});
   // ===============================
   // Load all courses
   // ===============================
@@ -24,6 +24,11 @@ function Courses() {
 
         setCourses(res.data);
         fetchRatings(res.data);
+
+        res.data.forEach(course => {
+           fetchEnrollmentCount(course._id);
+        });		
+		
 
       } catch (error) {
 
@@ -65,8 +70,6 @@ function Courses() {
 	};	
 	
 	
-	
-	
 
   }, []);
 
@@ -78,6 +81,27 @@ function Courses() {
 	  return "★".repeat(fullStars) + "☆".repeat(emptyStars);
 
 	};
+
+//fetch enrollment cout [no need for login]
+const fetchEnrollmentCount = async (courseId) => {
+
+  try {
+
+    const res = await axios.get(
+      `http://localhost:5000/api/access/count/${courseId}`
+    );
+
+    setEnrollments(prev => ({
+      ...prev,
+      [courseId]: res.data.total
+    }));
+
+  } catch (error) {
+    console.error(error);
+  }
+
+};
+
 
   return (
     <div>
@@ -109,7 +133,11 @@ function Courses() {
 				"No ratings yet"
 			  )}
 			</p>
-
+			{enrollments[course._id] !== undefined && (
+			  <p>
+				Students Enrolled: {enrollments[course._id]}
+			  </p>
+			)}
           {/* Request button component */}
           <CourseRequestButton courseId={course._id} />
 

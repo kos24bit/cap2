@@ -4,7 +4,6 @@ const router = express.Router();
 const Access = require("../models/Access");
 const Course = require("../models/Course");
 
-
 // =============================
 // Student requests access
 // =============================
@@ -83,5 +82,24 @@ router.get("/student/:userId", async (req, res) => {
   }
 
 });
+
+// ===============================
+// Count approved students for course
+// ===============================
+router.get("/count/:courseId", async (req, res) => {
+  try {
+
+    const count = await Access.countDocuments({
+      course: req.params.courseId
+    });
+
+    res.json({ total: count });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 
 module.exports = router;

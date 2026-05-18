@@ -1,12 +1,30 @@
 const express = require("express");
 const router = express.Router();
 const Course = require("../models/Course");
+const multer = require("multer");
+
+///////////////////////////
+// CONFIGURE STORAGE
+///////////////////////////
+const storage = multer.diskStorage({
+
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+
+});
+
+const upload = multer({ storage: storage });
 
 
 // ===============================
 // Add a new course
 // ===============================
-router.post("/add", async (req, res) => {
+router.post("/add",  upload.single("material"), async (req, res) => {
 
   const { title, description, instructor } = req.body;
 
@@ -15,7 +33,8 @@ router.post("/add", async (req, res) => {
     const course = new Course({
       title,
       description,
-      instructor: instructorId 
+      instructor,
+      material: req.file ? req.file.path : null
     });
 
     await course.save();
@@ -119,6 +138,7 @@ router.put("/update/:id", async (req, res) => {
   }
 
 });
+
 
 
 module.exports = router;

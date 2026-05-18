@@ -6,7 +6,7 @@ function InstructorDashboard() {
   const [courses, setCourses] = useState([]);
   const [requests, setRequests] = useState([]);
   const [ratings, setRatings] = useState({}); // ⭐ store ratings per course
-
+  const [students, setStudents] = useState({});
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -28,11 +28,12 @@ function InstructorDashboard() {
       );
 
       setCourses(res.data);
-
       // ⭐ fetch rating for each course
       res.data.forEach(course => {
-        fetchRating(course._id);
+        fetchRating(course._id);  
+		fetchStudentCount(course._id);
       });
+	  
 
     } catch (error) {
 
@@ -176,6 +177,28 @@ const renderStars = (avg) => {
 
 };
 
+//fetch...
+const fetchStudentCount = async (courseId) => {
+
+  try {
+
+    const res = await axios.get(
+      `http://localhost:5000/api/access/count/${courseId}`
+    );
+
+    setStudents(prev => ({
+      ...prev,
+      [courseId]: res.data.total
+    }));
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+};
+
   return (
     <div>
 
@@ -226,6 +249,10 @@ const renderStars = (avg) => {
 				"No ratings yet"
 			  )}
 			</p>
+			
+			<p>
+			   +++ Students enrolled: {students[course._id] || 0}
+			</p>	
 
         </div>
 

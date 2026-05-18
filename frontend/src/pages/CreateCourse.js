@@ -5,6 +5,7 @@ function CreateCourse() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [material, setMaterial] = useState(null);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -12,25 +13,37 @@ function CreateCourse() {
 
     e.preventDefault();
 
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("instructor", user._id);
+
+    if (material) {
+      formData.append("material", material);
+    }
+
     try {
 
       await axios.post(
-        "http://localhost:5000/api/courses",
+        "http://localhost:5000/api/courses/add",
+        formData,
         {
-          title,
-          description,
-          instructorId: user._id
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         }
       );
 
-      alert("Course created successfully");
+      alert("Course created");
 
-      window.location.href = "/instructor";
+      setTitle("");
+      setDescription("");
+      setMaterial(null);
 
     } catch (error) {
 
       console.error(error);
-      alert("Error creating course");
 
     }
 
@@ -60,6 +73,17 @@ function CreateCourse() {
           onChange={(e)=>setDescription(e.target.value)}
           required
         />
+
+        <br/><br/>
+
+        <div>
+          <label>Upload Course Material</label>
+          <br/>
+          <input
+            type="file"
+            onChange={(e) => setMaterial(e.target.files[0])}
+          />
+        </div>
 
         <br/><br/>
 
